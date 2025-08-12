@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PORTAL</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #dc2626, #ef4444, #ffffff, #f8fafc);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease-in-out infinite;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) {
+            width: 80px;
+            height: 80px;
+            background: #dc2626;
+            border-radius: 50%;
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .shape:nth-child(2) {
+            width: 60px;
+            height: 60px;
+            background: #ffffff;
+            border-radius: 50%;
+            top: 60%;
+            left: 80%;
+            animation-delay: 2s;
+        }
+
+        .shape:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            background: #dc2626;
+            border-radius: 20px;
+            top: 30%;
+            left: 70%;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .login-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.25),
+                0 0 0 1px rgba(220, 38, 38, 0.1);
+            position: relative;
+            z-index: 10;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUp 0.8s ease-out forwards;
+        }
+
+        @keyframes slideUp {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #dc2626, #ef4444);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo p {
+            color: #6b7280;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+            font-size: 0.9rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 3rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #dc2626;
+            box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            font-size: 1.2rem;
+            transition: color 0.3s ease;
+        }
+
+        .form-group input:focus + .input-icon {
+            color: #dc2626;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .remember-me input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #dc2626;
+        }
+
+        .forgot-password {
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .forgot-password:hover {
+            color: #b91c1c;
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .login-btn:hover::before {
+            left: 100%;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(220, 38, 38, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            margin: 2rem 0;
+            text-align: center;
+            position: relative;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #e5e7eb;
+        }
+
+        .divider span {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0 1rem;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        .social-login {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-btn {
+            flex: 1;
+            padding: 0.8rem;
+            border: 2px solid #e5e7eb;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-weight: 500;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .google-btn {
+            color: #ea4335;
+            border-color: #ea4335;
+        }
+
+        .facebook-btn {
+            color: #1877f2;
+            border-color: #1877f2;
+        }
+
+        .signup-link {
+            text-align: center;
+            margin-top: 2rem;
+            color: #6b7280;
+        }
+
+        .signup-link a {
+            color: #dc2626;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .signup-link a:hover {
+            color: #b91c1c;
+        }
+
+        .success-message {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .success-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .error-message {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 1rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .error-message.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                margin: 1rem;
+                padding: 2rem;
+            }
+            
+            .logo h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <div class="login-container">
+        <div class="logo">
+            <h1>PORTAL ADMIN</h1>
+        </div>
+
+        <div id="messageContainer"></div>
+
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="email">Email atau Username</label>
+                <div class="input-wrapper">
+                    <input type="text" id="email" name="email" required>
+                    <span class="input-icon">👤</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" name="password" required>
+                    <span class="input-icon">🔒</span>
+                </div>
+            </div>
+
+            <div class="remember-forgot">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember" name="remember">
+                    <label for="remember">Ingat saya</label>
+                </div>
+                <a href="#" class="forgot-password">Lupa password?</a>
+            </div>
+
+<form action="Dashboard.html" method="get">
+    <button type="submit" class="login-btn" id="loginBtn">
+        MASUK SEKARANG
+    </button>
+</form>
+
+    <script>
+        // Animasi loading pada button
+        function showLoading(button, text = 'Memuat...') {
+            button.disabled = true;
+            button.innerHTML = `<span style="display: inline-block; animation: spin 1s linear infinite;">⭕</span> ${text}`;
+        }
+
+        function hideLoading(button, originalText) {
+            button.disabled = false;
+            button.innerHTML = originalText;
+        }
+
+        // Fungsi untuk menampilkan pesan
+        function showMessage(message, type = 'error') {
+            const container = document.getElementById('messageContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `${type}-message`;
+            messageDiv.textContent = message;
+            
+            container.innerHTML = '';
+            container.appendChild(messageDiv);
+            
+            setTimeout(() => {
+                messageDiv.classList.add('show');
+            }, 100);
+
+            setTimeout(() => {
+                messageDiv.classList.remove('show');
+                setTimeout(() => {
+                    if (container.contains(messageDiv)) {
+                        container.removeChild(messageDiv);
+                    }
+                }, 300);
+            }, 3000);
+        }
+
+        // Validasi form
+        function validateForm(email, password) {
+            if (!email.trim()) {
+                return 'Email atau username tidak boleh kosong!';
+            }
+            
+            if (!password.trim()) {
+                return 'Password tidak boleh kosong!';
+            }
+            
+            if (password.length < 6) {
+                return 'Password minimal 6 karakter!';
+            }
+            
+            return null;
+        }
+
+        // Simulasi login
+        function simulateLogin(email, password) {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    // Simulasi kredensial yang benar
+                    if ((email === 'Admin' || email === 'admin@merahputih.id') && password === 'Admin231') {
+                        resolve({
+                            success: true,
+                            user: {
+                                name: 'Administrator',
+                                email: email
+                            }
+                        });
+                    } else {
+                        reject(new Error('Email/username atau password salah!'));
+                    }
+                }, 1500);
+            });
+        }
+
+        // Event listener untuk form login
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const loginBtn = document.getElementById('loginBtn');
+            
+            // Validasi
+            const validationError = validateForm(email, password);
+            if (validationError) {
+                showMessage(validationError, 'error');
+                return;
+            }
+            
+            // Tampilkan loading
+            showLoading(loginBtn, 'Masuk...');
+            
+            try {
+    const result = await simulateLogin(email, password);
+    showMessage(`Selamat datang, ${result.user.name}! Login berhasil.`, 'success');
+    
+    // Redirect ke dashboard setelah 2 detik
+    setTimeout(() => {
+        window.location.href = "Dashboard.html";
+    }, 2000);
+    
+} catch (error) {
+    showMessage(error.message, 'error');
+} finally {
+    hideLoading(loginBtn, 'MASUK SEKARANG');
+}
+        });
+
+        // Event listener untuk social login
+        document.getElementById('googleBtn').addEventListener('click', function() {
+            showLoading(this, 'Menghubungkan...');
+            setTimeout(() => {
+                hideLoading(this, '<span>🔴</span> Google');
+                showMessage('Login dengan Google berhasil!', 'success');
+            }, 2000);
+        });
+
+        document.getElementById('facebookBtn').addEventListener('click', function() {
+            showLoading(this, 'Menghubungkan...');
+            setTimeout(() => {
+                hideLoading(this, '<span>🔵</span> Facebook');
+                showMessage('Login dengan Facebook berhasil!', 'success');
+            }, 2000);
+        });
+
+        // Efek fokus pada input
+        const inputs = document.querySelectorAll('input[type="text"], input[type="password"]');
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.parentElement.classList.add('focused');
+            });
+            
+            input.addEventListener('blur', function() {
+                this.parentElement.parentElement.classList.remove('focused');
+            });
+        });
+
+        // Animasi CSS untuk loading spinner
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Easter egg: Konami code
+        let konamiCode = [];
+        const konamiSequence = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+
+        document.addEventListener('keydown', function(e) {
+            konamiCode.push(e.code);
+            if (konamiCode.length > konamiSequence.length) {
+                konamiCode.shift();
+            }
+            
+            if (konamiCode.join(',') === konamiSequence.join(',')) {
+                showMessage('🎉 Konami Code activated! Selamat Hari Kemerdekaan Indonesia! 🇮🇩', 'success');
+                document.body.style.animation = 'gradientShift 0.5s ease-in-out infinite';
+                setTimeout(() => {
+                    document.body.style.animation = 'gradientShift 8s ease-in-out infinite';
+                }, 3000);
+                konamiCode = [];
+            }
+        });
+
+        console.log('🇮🇩 Selamat datang di website login Merah Putih!');
+        console.log('Tips: Gunakan kredensial berikut untuk testing:');
+        console.log('Email/Username: admin atau admin@merahputih.id');
+        console.log('Password:admin231');
+    </script>
+</body>
+</html>

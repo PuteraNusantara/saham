@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Stock Dashboard - AI & Analytics</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <i class="fas fa-chart-line"></i>
+                <span>Smart Stock</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="#dashboard" class="nav-link active" data-page="dashboard">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#ai-chat" class="nav-link" data-page="ai-chat">
+                        <i class="fas fa-robot"></i> AI Assistant
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#charts" class="nav-link" data-page="charts">
+                        <i class="fas fa-chart-bar"></i> Analytics
+                    </a>
+                </li>
+            </ul>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard Page -->
+        <div id="dashboard-page" class="page active">
+            <div class="dashboard-header">
+                <h1>Dashboard Investasi Saham</h1>
+                <div class="market-status">
+                    <span class="status-indicator open"></span>
+                    <span>Pasar Terbuka</span>
+                    <span class="market-time">09:00 - 15:30 WIB</span>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Market Summary -->
+                <div class="card market-summary">
+                    <h3>Ringkasan Pasar</h3>
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="label">IHSG</span>
+                            <span class="value gain">7,234.56</span>
+                            <span class="change">+1.25%</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Volume</span>
+                            <span class="value">12.5M</span>
+                            <span class="change neutral">lot</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="label">Kapitalisasi</span>
+                            <span class="value">8,456T</span>
+                            <span class="change neutral">IDR</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick AI Chat -->
+                <div class="card quick-chat">
+                    <h3>
+                        <i class="fas fa-robot"></i>
+                        Tanya AI Assistant
+                    </h3>
+                    <div class="quick-chat-input">
+                        <input type="text" id="quick-question" placeholder="Tanya tentang saham, misalnya: Bagaimana outlook BBRI?">
+                        <button onclick="askQuickQuestion()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div id="quick-answer" class="quick-answer"></div>
+                </div>
+
+                <!-- Mini Chart -->
+                <div class="card">
+        <h1>📊 Grafik IHSG</h1>
+        <div id="data-container">
+            <p>Memuat data...</p>
+        </div>
+        <div id="chart-container">
+            <canvas id="ihsgChart"></canvas>
+        </div>
+    </div>
+
+                <!-- Top Stocks -->
+                <div class="card top-stocks">
+                    <h3>Saham Teraktif</h3>
+                    <div class="stocks-list">
+                        <div class="stock-item">
+                            <span class="stock-code">BBRI</span>
+                            <span class="stock-price">4,580</span>
+                            <span class="stock-change gain">+2.1%</span>
+                        </div>
+                        <div class="stock-item">
+                            <span class="stock-code">BMRI</span>
+                            <span class="stock-price">5,325</span>
+                            <span class="stock-change loss">-0.8%</span>
+                        </div>
+                        <div class="stock-item">
+                            <span class="stock-code">TLKM</span>
+                            <span class="stock-price">3,150</span>
+                            <span class="stock-change gain">+1.5%</span>
+                        </div>
+                        <div class="stock-item">
+                            <span class="stock-code">ASII</span>
+                            <span class="stock-price">6,875</span>
+                            <span class="stock-change gain">+0.9%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Chat Page -->
+        <div id="ai-chat-page" class="page">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <h2>
+                        <i class="fas fa-robot"></i>
+                        AI Stock Assistant
+                    </h2>
+                    <p>Tanyakan apapun tentang investasi saham</p>
+                </div>
+
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message ai-message">
+                        <div class="message-avatar">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <div class="message-content">
+                            <p>Halo! Saya AI Assistant untuk investasi saham. Saya bisa membantu Anda dengan:</p>
+                            <ul>
+                                <li>Analisis saham dan tren pasar</li>
+                                <li>Penjelasan istilah investasi</li>
+                                <li>Strategi investasi untuk pemula</li>
+                                <li>Rekomendasi berdasarkan profil risiko</li>
+                            </ul>
+                            <p>Apa yang ingin Anda ketahui hari ini?</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-suggestions">
+                    <button onclick="sendSuggestion('Bagaimana cara memulai investasi saham?')" class="suggestion-btn">
+                        Cara memulai investasi saham?
+                    </button>
+                    <button onclick="sendSuggestion('Analisis BBRI hari ini')" class="suggestion-btn">
+                        Analisis BBRI hari ini
+                    </button>
+                    <button onclick="sendSuggestion('Apa itu dividend yield?')" class="suggestion-btn">
+                        Apa itu dividend yield?
+                    </button>
+                    <button onclick="sendSuggestion('Strategi buy and hold')" class="suggestion-btn">
+                        Strategi buy and hold
+                    </button>
+                </div>
+
+                <div class="chat-input">
+                    <input type="text" id="chatInput" placeholder="Ketik pertanyaan Anda...">
+                    <button onclick="sendMessage()" id="sendButton">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts Page -->
+        <div id="charts-page" class="page">
+            <div class="charts-header">
+                <h2>Analytics & Charts</h2>
+                <div class="chart-controls">
+                    <select id="stockSelector">
+                        <option value="IHSG">IHSG</option>
+                        <option value="BBRI">BBRI</option>
+                        <option value="BMRI">BMRI</option>
+                        <option value="TLKM">TLKM</option>
+                        <option value="ASII">ASII</option>
+                    </select>
+                    <select id="timeRange">
+                        <option value="1D">1 Hari</option>
+                        <option value="1W">1 Minggu</option>
+                        <option value="1M">1 Bulan</option>
+                        <option value="3M">3 Bulan</option>
+                        <option value="1Y">1 Tahun</option>
+                    </select>
+                    <select id="chartType">
+                        <option value="line">Line Chart</option>
+                        <option value="bar">Bar Chart</option>
+                        <option value="candlestick">Candlestick</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="charts-grid">
+                <div class="card main-chart">
+                    <canvas id="mainChart"></canvas>
+                </div>
+
+                <div class="card volume-chart">
+                    <h4>Volume Trading</h4>
+                    <canvas id="volumeChart"></canvas>
+                </div>
+
+                <div class="card technical-indicators">
+                    <h4>Indikator Teknikal</h4>
+                    <div class="indicators-list">
+                        <div class="indicator">
+                            <span class="label">RSI (14)</span>
+                            <span class="value">68.5</span>
+                            <span class="status neutral">Netral</span>
+                        </div>
+                        <div class="indicator">
+                            <span class="label">MACD</span>
+                            <span class="value positive">+12.5</span>
+                            <span class="status bullish">Bullish</span>
+                        </div>
+                        <div class="indicator">
+                            <span class="label">MA (50)</span>
+                            <span class="value">7,180</span>
+                            <span class="status support">Support</span>
+                        </div>
+                        <div class="indicator">
+                            <span class="label">Bollinger Bands</span>
+                            <span class="value">Mid</span>
+                            <span class="status neutral">Netral</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card chart-analysis">
+                    <h4>AI Analysis</h4>
+                    <div id="chartAnalysis" class="analysis-content">
+                        <p>Klik pada chart untuk mendapatkan analisis AI tentang titik tersebut...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+   
+    <script src="static/js/ihsg-chart.js"></script>
+
+</body>
+</html>
